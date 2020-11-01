@@ -1,0 +1,423 @@
+PROCESOS ASINCRONOS:
+
+Un proceso asíncrono es un código que se está ejecutando, pero no ha terminado de ejecutarse antes de que se ejecute un código que está después de él.
+
+Esto permite que la aplicación no se cuelque mientras está ejecutando un proceso muy largo.
+
+VARIABLES:
+
+var es la forma de crear variables hasta ES5.
+const es para declarar constantes.
+let es para crear variables que cambian.
+Funciones
+function cambiarNombre(nuevoNombre) {
+  cambia = nuevoNombre;
+}
+
+//Desde EC6, las funciones se pueden declarar como arrow functions.
+cambiarNombre = (nuevoNombre) => {
+  cambia = nuevoNombre;
+}
+
+
+PROMESAS:
+
+Las promesas sirven para manejar nuestro código asíncrono.
+
+“Una Promesa es un objeto que representa la terminación o el fracaso eventual de una operación asíncrona”, o dicho de forma más cotidiana, se va a mandar una función para ver si falla o se ejecuta con éxito.
+
+Al crear una Promesa debemos pasarle por argumento la función que vamos a ejecutar de forma asíncrona, dicha función va a recibir dos parámetros para evaluar si se ejecuto bien la función o si fallo.
+
+Nuestra promesa va a tener dos métodos para saber si todo salió bien o fallo. El método then se encarga cuando la promesa se cumplió exitosamente, mientras que el método catch se encarga cuando la promesa falla.
+
+Dentro de JavaScript tenemos dos funciones para ejecutar una función después de algún tiempo, estas funciones son:
+
+• setInterval: ejecutara una función cada x tiempo.
+• setTimeout: ejecutara una función después de x tiempo.
+
+Si queremos resolver varias promesas a la misma vez, Promise cuenta con un método llamado all que recibe un array de promesas como parámetro. Este método se termina cuando todas las promesas del array se terminan de ejecutar. Si una de las promesas falla entonces el método all saltara un error mandándote al método catch.
+
+Promise también cuenta con el método race que te regresa los resultados de la promesa que termine primero.
+
+
+AJAX:
+
+Tutorial de Ajax en jQuery y Javascript
+Una característica muy solicitada en cualquier sitio dinámico es solicitar datos a un servidor, denominado API. Para esto normalmente se utiliza Ajax.
+
+Ajax recibe dos parámetros los cuales son la url de la API y un objeto donde pondrás la configuración que se usara para realizar la petición. En la configuración se añaden dos funciones para manejar cuando la petición se realizo correctamente y cuando falla.
+
+JavaScript internamente cuenta con una función llamada fetch que también realiza peticiones a una API. Al igual que Ajax necesita dos parámetros, una url y una configuración, pero si solo le mandas la url fetch usará una configuración por defecto donde el método HTTP será GET.
+fetch te regresa una promesa, esa promesa al resolverse te da los datos de respuesta y tiene un método llamado json que te regresa otra promesa con los datos en formato JSON.
+
+Las promesas resuelven el problema del Callback Hell haciendo que una promesa pueda devolver otra promesa y en lugar de ser anidadas como los callback, estas promesas son encadenadas.
+
+FUNCIONES ASINCRONAS:
+
+Una función asíncrona va a ser como una función normal, pero poniendo código asíncrono de forma que sea más fácil de leer de forma síncrona.
+
+Para declarar una función asíncrona se usa la palabra reservada async, luego de eso declaras tu función de forma normal. Dentro de una función asíncrona cuentas con otra palabra reservada llamada await, lo que hará esta palabra es indicar que se debe esperar a que termine de ejecutarse ese fragmento de código antes de continuar.
+
+Vamos a realizar peticiones con fetch a la API de yts para pedirle películas según su categoría y mostrarlas dentro de PlatziVideo. Sin el uso de funciones asíncronas para cada fetch tendríamos que usar los métodos then y catch, en cambio gracias a async/await solo debemos escribir la palabra await antes de cada promesa.
+
+
+SELECTORES:
+
+Un selector nos sirve para poder manipular un objeto del DOM, puedes buscar dicho objeto ya sea por su id, clase, atributo, etc.
+
+Para PlatziVideo necesitamos un selector de un contenedor para ponerle dentro la lista de películas.
+
+En jQuery hacemos un selector de la siguiente forma:
+
+const $home = $(‘ .home ’);
+Por convención una variable que este represente un objeto del DOM lleva el signo $, esto es para tener claro que estamos manipulando un objeto del DOM y no algún tipo de información o dato.
+
+Dentro de JavaScript existen distintas funciones para hacer selectores, entre ellas se encuentra:
+
+• getElementById: recibe como parámetro el id del objeto del DOM que estás buscando. Te regresa un solo objeto.
+• getElementsByTagName: recibe como parámetro el tag que estas buscando y te regresa una colección html de los elementos que tengan ese tag.
+• getElementsByClassName: recibe como parámetro la clase y te regresa una colección html de los elementos que tengan esa clase.
+• querySelector: va a buscar el primer elemento que coincida con el selector que le pases como parámetro.
+• querySelectorAll: va a buscar todos los elementos que coincidan con el selector que le pases como parámetro.
+
+
+CREACION DE TEMPLATES:
+
+Vamos a crear una plantilla con nuestro elemento base, dicha plantilla será recibirá valores dinámicos.
+
+Dentro de jQuery, la creación de un template seria con un texto base y si nuestro texto cuenta con distintas líneas más aparte tuviera valores dinámicos se vería de la siguiente forma:
+
+‘<div class=”container”>’ +
+    ‘<p id=’+ id +’>Hola Mundo<p>’ +
+‘<div>’
+Desde ECMAScript 6 contamos con una nueva característica llamada template literals que se representan con las comillas invertidas ``, el ejemplo anterior pasaría a verse de esta forma:
+
+`<div class=”container”>
+    <p id=${id}>Hola Mundo<p>
+<div>`
+
+Templates
+jQuery
+
+En jQuery se tiene que poner todo el html dentro de una cadena de texto.
+
+function videoItemTemplate(src, title) {
+  return (
+    '<div class="primaryPlaylistItem">' +
+      '<div class="primaryPlaylistItem-image">' +
+        '<img src="' + src + '">' +
+      '</div>' +
+      '<h4 class="primaryPlaylistItem-title">' +
+        title +
+      '</h4>' +
+    '</div>'
+  )
+}
+JavaScript
+
+Se usa una característica de ES6 que se llama template literals.
+
+function videoItemTemplate(src, title) {
+  return (
+    `<div class="primaryPlaylistItem">
+      <div class="primaryPlaylistItem-image">
+        <img src="${src}">
+      </div>
+      <h4 class="primaryPlaylistItem-title">
+        ${title}
+      </h4>
+    </div>`
+  )
+}
+
+
+DOM:
+
+Creación de DOM
+La plantilla que creamos la clase anterior de momento es puro texto, no es un elemento HTML que podamos poner dentro del navegador pues si los imprimimos en el navegador lo único que veremos es texto.
+
+Vamos a insertar la plantilla dentro de nuestro container, para ello recuerda que JavaScript se lee de arriba hacia abajo entonces debemos declarar la variable del container antes de llamar a algún método de este.
+
+Para convertir nuestra plantilla de texto a un Document Object Model necesitamos crear dentro de memoria un documento HTML, esto es posible gracias al método document.implementation.createHTMLDocument. A este documento HTML le vamos a añadir al body, mediante innerHTML, nuestra plantilla de texto. Una vez añadida le pedimos al body el primer elemento hijo que tenga y este lo añadimos a nuestro container.
+Este flujo es la magia que hay detrás de varias librerías y frameworks que nos ayudan a crear interfaces.
+
+
+Reutilizando funciones:
+
+En esta clase vamos a modificar nuestro código que se encarga de renderizar la plantilla de video para volverlo una función que pueda ser reutilizable. Dicha función recibirá dos parámetros, uno para saber sobre qué lista de películas va a iterar y otro para saber en que contenedor va a renderizar las películas.
+
+
+EVENTOS:
+
+Toda aplicación web necesita lidiar con interacciones del usuario, desde un click hasta arrastrar algún elemento, estas interacciones son escuchadas por el navegador mediante algo llamado eventos. 
+
+Existen muchos tipos de eventos, el más común es el evento de click.
+En esta clase vamos a trabajar con el evento click y submit.
+
+Para que un elemento HTML pueda escuchar algún evento debemos usar el método addEventListener. Este método recibe dos parámetros, el nombre del evento que va a escuchar y la función que se va a ejecutar al momento de que se accione el evento.
+
+La página se recarga al momento de ejecutarse el evento submit, para evitar esto debemos quitarle la acción por defecto que viene en submit usando el método event.preventDefault().
+
+
+Clases y estilos CSS:
+
+En esta clase vamos a aprender a manipular las clases de CSS y estilos de nuestros elementos mediante JavaScript.
+Dentro de cada elemento tenemos un método llamado classList, con este podemos ver las clases que tiene nuestro elemento y además llamar a otros métodos para añadir, borrar o hacer toggle a alguna clase.
+De igual forma podemos acceder a todas las propiedades de CSS algún elemento mediante element.style.
+
+
+Creación de elementos y asignación de atributos:
+
+Vamos a crear un elemento HTML sin usar un template string. Para crear el elemento desde cero vamos a usar el método document.createElement, este recibe como parámetro la etiqueta html del elemento que se quiere crear, no funciona mandándole el template string.
+Para añadirle un atributo al elemento que acabamos de crear haremos uso del método setAttribute. Este recibe dos parámetros, uno indicando el nombre del atributo que vamos a añadir y el segundo parámetro indicando el valor de dicho atributo.
+Vamos a crear una función para poder añadir múltiples atributos a un solo elemento.
+
+
+Formularios:
+
+FormData() es una interfaz que te permite obtener los valores de un formulario.
+
+//FormData va a abstraerr todos los valores de los elementos del formulario que cuenten con un atributo 'name' asignado y los va a setear en un objeto de tipo FormData.
+const data = new FormData($form);
+
+//retorna el valor del elemento con el atributo name="nombre"
+data.get("nombre");
+
+//setea el valor avengers en la key pelicula 
+data.set("pelicula", "avengers");
+
+
+Desestructuración de objetos:
+
+Destructuring assignment permite entrar a un objeto o lista y poder sacar un dato para asignarlo a otra variable.
+
+//el fetch devuelve una promesa con la siguiente estructura: promesa.data.movies
+//con el destructuring assignmen estamos creando una variable que se llama pelis y solo contiene la información de movies.
+const { 
+  data: {
+    movies: pelis
+  }
+} = await fetch(`api_url`); 
+
+//Lo anterior sería igual a esto:
+const response = await fetch(`api_url`);
+const pelis = response.data.movies;
+
+
+También ser puede desestructurar el objeto que está dentro del Array Movies. Aquí va el código:
+
+function featuringTemplate(pelicula) {
+
+    const {
+      title,
+      medium_cover_image
+    } = pelicula;
+
+    return (
+      `
+      <div class="featuring">
+        <div class="featuring-image">
+          <img src="${medium_cover_image}" width="70" height="100" alt="">
+        </div>
+        <div class="featuring-content">
+          <p class="featuring-title">Pelicula encontrada</p>
+          <p class="featuring-album">${title}</p>
+        </div>
+      </div>
+      `
+    )
+  }
+
+  form.addEventListener('submit', async function(event){
+    
+    event.preventDefault();
+    home.classList.add('search-active');
+    showModal();
+    
+    const loader = document.createElement('img');
+    setAttributes(loader, loaderImage)
+    featuringContainer.append(loader);
+
+    const data = new FormData(form);
+    const {
+      data:{
+        movies: [pelis]
+      }
+    } = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`);    
+    const HTMLString = featuringTemplate(pelis);
+    featuringContainer.innerHTML = HTMLString;
+    
+  })
+
+
+Dataset:
+
+Dataset permite acceder a un objeto con todos los atributos data de un elemento DOM.
+
+<div id="element" data-id="10" data-category="action">
+</div>
+const $element = document.getElementById("element");
+
+//guarda el valor de data-id
+const id = $element.dataset.id;
+//guarda el valor de data-category
+const category = $element.dataset.category;
+Transformar tipos de datos
+Cambiar un string a entero
+
+//parseInt("número", base)
+let n = parseInt("500", 10)
+
+
+Encontrando elementos en la lista
+
+Encontrando elementos en lista (find)
+find() devuelve el primer elemento de un array que cumpla con el criterio de búsqueda. Si no se encuentra ningún elemento devuelve undefined.
+
+function find(list, id) {
+  return list.find(movie => movie.id === id)
+}
+Información referencial:
+https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/find
+
+switch
+switch (category) {
+  case "action": {
+    //código de action
+  }
+  case "drama": {
+    //código de drama
+  }
+  default: {
+    //código por defecto
+  }
+}
+
+
+ir a la pagina del curso, por ejemplo https://platzi.com/clases/jquery-js/
+abrir el inspector de elementos
+Limpiar la consola (Ctrl + L)
+en la consola pegar el siguiente código y presionar enter
+let times = document.querySelectorAll('.MaterialItem-copy-time')
+let minutos = 0
+let segundos = 0
+
+
+Si queres Saber cuanto tiempo en Horas te va a tomar hacer un curso de platzi te dejo este sencillo SCRIPT
+
+ir a la pagina del curso, por ejemplo https://platzi.com/clases/jquery-js/
+abrir el inspector de elementos
+Limpiar la consola (Ctrl + L)
+en la consola pegar el siguiente código y presionar enter
+
+times.forEach((time)=>{
+    minutos += parseInt(time.innerText.slice(0,2), 10)
+    segundos += parseInt(time.innerText.slice(3,5), 10)
+  })
+
+let m = Math.floor(segundos / 60) + minutos % 60
+let h = Math.floor(minutos / 60) + Math.floor(m / 60)
+
+if ( m >= 60) {
+  m-=60
+}
+
+console.log(`El tiempo de reproducción de este curso es de: ${h} horas y ${m} minutos.`)
+
+Animaciones
+La propiedad srcElement ya no es recomendada de usar. En cambio, se puede utilizar la propiedad target.
+
+event.target.classList.add(‘fadeIn’);
+
+LocalStorage: Sirve para guardar los datos y que cuando el navegador se cierre no se borren los datos
+sessionStorage: Sirve para guardar los datos y que cuando el navegador se cierre los datos se borren
+
+
+localStorage permite almacenar datos sin tiempo de expiración
+sessionStorage permite almacenar datos. Estos datos se van a borrar cuando se termine la sessión del navegador
+
+En local storage solo se puede guardar texto plano. No se pueden guardar objetos.
+
+//eliminar los datos
+window.localStorage.clear();
+
+//setear un valor
+window.localStorage.setItem("nombre", "Toshi");
+
+//setear un objeto
+//primero se tiene que convertir el objeto en un string
+window.localStorage.setItem("objeto", JSON.stringify({"peli": "wonder woman"});
+
+//obtener el valor de un key
+window.localStorage.getItem("nombre");
+
+//obtener el valor de un texto objeto y convertirlo a objeto
+JSON.parse(window.localStorage.getItem("objeto"));
+
+Para respaldar los datos que pedimos a la API utilizamos localStorage ó sessionStorage. Son objetos nativos en javascript.
+
+localStorage es un objeto dentro de window.
+
+Para acceder:
+
+
+	window.localStorage
+	
+	// por defecto el navegador lo reconoce y no hace falta anteponer el 'window'
+	localStorage
+	
+Para limpiar/borrar datos:
+
+
+	window.localStorage.clear()
+
+Setear un dato:
+
+
+	window.localStorage.setItem('item','value')
+
+Obtener su valor:
+
+
+	window.localStorage.getItem('item')
+	// value
+	
+En localStorage no puedo guardar objetos directamente. Para poder hacerlo, hay que previamente convertir el objeto en un string.
+Esto puedo hacerlo con el método, también nativo de javascript, JASON.stringify():
+
+
+	var object = JSON.stringify({'flor': 'roja'})
+	window.localStorage.setItem('item', object)
+	window.localStorage.getItem('item')
+	// "{"flor":"roja"}"
+
+Para re-convertirlo en objeto luego de obtenerlo puedo usar JSON.parse:
+
+
+	const objectBack = window.localStorage.getItem('item')
+	
+	JSON.parse(objectBack)
+	// {flor: "roja"}
+	      flor: "roja"
+	      > __proto__: Object
+
+
+Obteniendo los datos almacenados:
+
+Revisar si los datos se encuentran en cache.
+
+async function cacheExist(category) {
+  const listName = `${category}List`;
+  const cacheList = window.localStorage.getItem(listName);
+
+  if (cacheList)
+    return JSON.parse(cacheList);
+  
+  const { data: { movies: data } } = await getData(`${BASE_API}list_movies.json?genre=${category}`);
+  window.localStorage.setItem(listName, JSON.stringify(data));
+  return data;
+}
+Si se desea volver a traer los datos se puede hacer lo siguiente:
+
+Poner un botón que traiga los datos
+Hacer un setTimeout que borre el localStorage.
